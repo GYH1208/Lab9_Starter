@@ -86,8 +86,29 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
+   
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "9c05fc36f9884910a8c9480a581d5d5f"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+
+
 
   <script>
+
+
+    TrackJS.track('Testing TrackJS!');
+     class ValidationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ValidationError"; 
+      }
+    }
+
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -107,21 +128,98 @@
     });
 
     errorBtns[1].addEventListener('click', function() {
-    console.log("Console Error Demo");
+    console.error("Console Error Demo");
     });
 
-    errorBtns[2].addEventListener('click', function {
+    errorBtns[2].addEventListener('click', function() {
     console.log("Console Count Demo");
     });
 
-    errorBtns[3].addEventListener('click', function {
+    errorBtns[3].addEventListener('click', function() {
     console.warn("Console Warn Demo");  
     });
 
-    errorBtns[4].addEventListener('click', function {
+    errorBtns[4].addEventListener('click', function() {
+      let errorMsg = " The # is not even"
+      let number  = 2;
+    console.assert(number % 2 === 0, '%o', { number, errorMsg });
+    });
+
+    errorBtns[5].addEventListener('click', function() {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', function() {
+    console.dir(errorBtns[6]);
+    });
+
+    errorBtns[7].addEventListener('click', function() {
+    console.dirxml(errorBtns[7]);  
+    });
+
+    errorBtns[8].addEventListener('click', function() {
+      console.group("Start group");
+      console.group();
+    });
+
+    errorBtns[9].addEventListener('click', function() {
+      console.log("End group");
+      console.groupEnd();
+    });
+
+    errorBtns[10].addEventListener('click', function() {
+       var name = [
+        {firstname:"John", lastname:"Doe"},
+        {firstname:"Yuheng", lastname:"Ge"},
+        {firstname:"Jack", lastname:"Ma"}  ];
+    
+        console.table(name);
+      });
+
+    errorBtns[11].addEventListener('click', function() {
+      console.time();
+    });
+
+    errorBtns[12].addEventListener('click', function() {
+      console.timeEnd();
+    });
+
+    errorBtns[13].addEventListener('click', function() {
+      //console.trace("Console Trace");
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { console.trace(); };
+      first();
     
     });
 
+    errorBtns[14].addEventListener('click', function() {
+  
+      //TrackJS.track('Testing TrackJS!');
+      try {
+      //check if the number if even
+        console.log( 'try' );
+      const x = 5;
+    
+      if ( x % 2 == 0 ) {
+        alert( 'The number is even' );
+      }
+      else {
+        throw new ValidationError("The number is not even");
+      }
+    } 
+    catch(err) {
+      console.error( 'catch' );
+      console.error(err.message); 
+      console.error(err.name); // ValidationError
+      console.error(err.stack); // a list of nested calls with line numbers for each
+    }
+    finally {
+      console.error("Global Error Demo");
+    }
+    //TrackJS.track('Testing TrackJS!');
+    });
   </script>
 </body>
 
